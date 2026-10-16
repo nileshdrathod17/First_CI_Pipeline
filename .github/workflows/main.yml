@@ -1,5 +1,14 @@
 name: First Pipeline
-on: workflow_dispatch
+# on: workflow_dispatch
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop,main]
+
+permissions:
+  contents: read
+  
 jobs:
   build:
     runs-on: ubuntu-22.04
