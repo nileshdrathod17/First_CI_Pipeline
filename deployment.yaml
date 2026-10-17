@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: firstpipeline
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: firstpipeline
+
+  template:
+    metadata:
+      labels:
+        app: firstpipeline
+
+    spec:
+      containers:
+      - name: firstpipeline
+        image: nileshrathod17/firstpipeline:latest
+
+        ports:
+        - containerPort: 3000
+
+        imagePullPolicy: Always

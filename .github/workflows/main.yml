@@ -76,9 +76,55 @@ jobs:
           push: true
           tags: |
             nileshrathod17/firstpipeline
-         
 
 
+# this deployment job will deploy the docker image to a KOPS-managed Kubernetes cluster. 
+        
+
+  deploy:
+    name: Deploy To KOPS
+    runs-on: ubuntu-22.04
+    needs: docker_build_push
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: latest
+
+      - name: Configure Kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG }}" | base64 -d > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
+
+      - name: Verify KOPS Cluster
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+
+      - name: Deploy Application
+        run: |
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+
+      - name: Update Image
+        run: |
+          kubectl set image deployment/firstpipeline \
+          firstpipeline=nileshrathod17/firstpipeline:latest
+
+      - name: Wait for Rollout
+        run: |
+          kubectl rollout status deployment/firstpipeline --timeout=300s
+
+      - name: Verify Deployment
+        run: |
+          kubectl get deployment
+          kubectl get pods -o wide
+          kubectl get svc
 
 
           
