@@ -75,10 +75,8 @@ jobs:
           context: .
           push: true
           tags: |
-            nileshdrathod17/webapp:latest
+            nileshdrathod17/webapp:v1
             nileshdrathod17/webapp:${{ github.run_number }}
-
-
 
 
 
