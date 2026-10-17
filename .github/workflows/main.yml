@@ -75,26 +75,12 @@ jobs:
           context: .
           push: true
           tags: |
-            nileshdrathod17/webapp:v1
-            nileshdrathod17/webapp:${{ github.run_number }}
+            nileshrathod17/firstpipeline
+            nileshrathod17/firstpipeline:${{ github.run_number }}
 
 
 
 
-  # deploy:
-  #   runs-on: ubuntu-22.04
-  #   needs: code_quality
-  #   steps:
-  #     - uses: actions/download-artifact@v4
-  #       with:
-  #         name: webapp
-  #     - name: Deploy to Azure web app
-  #       uses: Azure/webapps-deploy@v3
-  #       with:
-  #         app-name: mygithubapp
-  #         publish-profile:  ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE}}
-  #         package: .
-          
           
       
       
