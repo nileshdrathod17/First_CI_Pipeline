@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "tsc && cp -r public dist/public",
-    "start": "jest config.js",
+    "start": "npm test",
     "test": "jest --coverage",
     "lint": "eslint . --ext .ts --format stylish"
   },
