@@ -117,7 +117,7 @@ jobs:
       - name: Update Image
         run: |
           kubectl set image deployment/firstpipeline \
-          firstpipeline=nileshrathod17/firstpipeline:latest
+          firstpipeline=nileshrathod17/firstpipeline
 
       - name: Wait for Rollout
         run: |
