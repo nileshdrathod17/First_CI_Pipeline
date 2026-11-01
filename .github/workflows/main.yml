@@ -78,7 +78,7 @@ jobs:
             nileshrathod17/firstpipeline:latest
 
 
-this deployment job will deploy the docker image to a KOPS-managed Kubernetes cluster. 
+# this deployment job will deploy the docker image to a KOPS-managed Kubernetes cluster. 
         
 
   deploy:
