@@ -52,30 +52,30 @@ jobs:
       - run: npm ci
       - run: npm run lint
 
-  docker_build_push:
-    runs-on: ubuntu-22.04
-    needs: code_quality
+  # docker_build_push:
+  #   runs-on: ubuntu-22.04
+  #   needs: code_quality
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    # steps:
+    #   - name: Checkout Repository
+    #     uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+    #   - name: Set up Docker Buildx
+    #     uses: docker/setup-buildx-action@v3
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    #   - name: Login to Docker Hub
+    #     uses: docker/login-action@v3
+    #     with:
+    #       username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #       password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: |
-            nileshrathod17/firstpipeline:latest
+    #   - name: Build and Push Docker Image
+    #     uses: docker/build-push-action@v5
+    #     with:
+    #       context: .
+    #       push: true
+    #       tags: |
+    #         nileshrathod17/firstpipeline:latest
 
 
 # this deployment job will deploy the docker image to a KOPS-managed Kubernetes cluster. 
@@ -96,38 +96,38 @@ jobs:
           version: latest
         
 
-      - name: Configure Kubeconfig
-        run: |
-          mkdir -p $HOME/.kube
-          cat <<EOF > $HOME/.kube/config
-          ${{ secrets.KUBECONFIG }}
-          EOF
-          chmod 600 $HOME/.kube/config
+      # - name: Configure Kubeconfig
+      #   run: |
+      #     mkdir -p $HOME/.kube
+      #     cat <<EOF > $HOME/.kube/config
+      #     ${{ secrets.KUBECONFIG }}
+      #     EOF
+      #     chmod 600 $HOME/.kube/config
 
-      - name: Verify KOPS Cluster
-        run: |
-          kubectl cluster-info
-          kubectl get nodes
+      # - name: Verify KOPS Cluster
+      #   run: |
+      #     kubectl cluster-info
+      #     kubectl get nodes
 
-      - name: Deploy Application
-        run: |
-          kubectl apply -f ./deployment.yaml
-          kubectl apply -f ./service.yaml
+      # - name: Deploy Application
+      #   run: |
+      #     kubectl apply -f ./deployment.yaml
+      #     kubectl apply -f ./service.yaml
 
-      - name: Update Image
-        run: |
-          kubectl set image deployment/firstpipeline \
-          firstpipeline=nileshrathod17/firstpipeline
+      # - name: Update Image
+      #   run: |
+      #     kubectl set image deployment/firstpipeline \
+      #     firstpipeline=nileshrathod17/firstpipeline
 
-      - name: Wait for Rollout
-        run: |
-          kubectl rollout status deployment/firstpipeline --timeout=300s
+      # - name: Wait for Rollout
+      #   run: |
+      #     kubectl rollout status deployment/firstpipeline --timeout=300s
 
-      - name: Verify Deployment
-        run: |
-          kubectl get deployment
-          kubectl get pods -o wide
-          kubectl get svc
+      # - name: Verify Deployment
+      #   run: |
+      #     kubectl get deployment
+      #     kubectl get pods -o wide
+      #     kubectl get svc
 
 
           
