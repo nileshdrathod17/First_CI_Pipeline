@@ -81,10 +81,10 @@ jobs:
 # this deployment job will deploy the docker image to a KOPS-managed Kubernetes cluster. 
         
 
-  deploy:
-    name: Deploy To KOPS
-    runs-on: ubuntu-22.04
-    needs: docker_build_push
+  # deploy:
+  #   name: Deploy To KOPS
+  #   runs-on: ubuntu-22.04
+  #   needs: docker_build_push
 
     # steps:
     #   - name: Checkout Code
